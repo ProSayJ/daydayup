@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.geekbang.projects</groupId>
+        <groupId>ProSayJ</groupId>
         <artifactId>user-platform</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
@@ -17,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.geekbang.projects</groupId>
+            <groupId>ProSayJ</groupId>
             <artifactId>my-web-mvc</artifactId>
             <version>${revision}</version>
         </dependency>

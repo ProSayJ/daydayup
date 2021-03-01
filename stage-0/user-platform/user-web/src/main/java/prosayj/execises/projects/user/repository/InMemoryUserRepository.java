@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 内存型 {@link UserRepository} 实现
  *
  * @author yangjian
- * @since 1.0s
+ * @since 1.0
  */
 public class InMemoryUserRepository implements UserRepository {
 

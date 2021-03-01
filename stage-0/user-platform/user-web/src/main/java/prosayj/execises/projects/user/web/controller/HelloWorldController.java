@@ -19,7 +19,7 @@ public class HelloWorldController implements PageController {
 
 
     @GET
-    @POST
+//    @POST
     @Path("/world") // /hello/world -> HelloWorldController
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Throwable {
