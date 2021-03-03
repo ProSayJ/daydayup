@@ -26,15 +26,6 @@ public class UserController implements PageController {
         userService = load.iterator().next();
     }
 
-
-
-
-
-
-
-
-
-
 //    {
 //        userService = new UserServiceImpl(new DatabaseUserRepository(new DBConnectionManager()));
 //    }

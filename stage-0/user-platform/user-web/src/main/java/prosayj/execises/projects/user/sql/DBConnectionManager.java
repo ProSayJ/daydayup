@@ -1,7 +1,6 @@
 package prosayj.execises.projects.user.sql;
 
 import prosayj.execises.projects.user.domain.User;
-import prosayj.execises.projects.user.service.UserService;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;

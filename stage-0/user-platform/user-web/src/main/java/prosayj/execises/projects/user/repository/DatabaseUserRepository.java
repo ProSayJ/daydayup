@@ -28,7 +28,17 @@ import static prosayj.execises.projects.user.sql.DBConnectionManager.DROP_USERS_
  */
 public class DatabaseUserRepository implements UserRepository {
     private static final Logger logger = Logger.getLogger(DatabaseUserRepository.class.getName());
+
+    public static final String INSERT_USER_DML_SQL = "INSERT INTO users(name,password,email,phoneNumber) VALUES (?,?,?,?)";
+    public static final String QUERY_ALL_USERS_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users";
+    public static final String QUERY_USERS_BY_ID_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users WHERE id=?";
+    public static final String QUERY_USERS_BY_ID_AND_PASSWORD_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users WHERE name=? and password=?";
+
     private final ConnectionManager dbConnectionManager;
+    private final Map<Class<?>, String> preparedStatementMethodMappings;
+    private final Map<Class<?>, String> resultSetMethodMappings;
+
+
 
     public DatabaseUserRepository() {
         ServiceLoader<ConnectionManager> load = ServiceLoader.load(ConnectionManager.class);
@@ -50,21 +60,6 @@ public class DatabaseUserRepository implements UserRepository {
     private static final Consumer<Throwable> COMMON_EXCEPTION_HANDLER =
             e -> logger.log(Level.SEVERE, e.getMessage());
 
-    /**
-     * 数据类型与 ResultSet 方法名映射
-     */
-    private final Map<Class<?>, String> resultSetMethodMappings;
-
-    /**
-     *
-     */
-    private final Map<Class<?>, String> preparedStatementMethodMappings;
-
-
-    public static final String INSERT_USER_DML_SQL = "INSERT INTO users(name,password,email,phoneNumber) VALUES (?,?,?,?)";
-    public static final String QUERY_ALL_USERS_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users";
-    public static final String QUERY_USERS_BY_ID_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users WHERE id=?";
-    public static final String QUERY_USERS_BY_ID_AND_PASSWORD_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users WHERE name=? and password=?";
 
 
     @Override
