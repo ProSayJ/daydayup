@@ -1,6 +1,7 @@
 package prosayj.execises.projects.user.sql;
 
 import prosayj.execises.projects.user.domain.User;
+import prosayj.execises.projects.user.service.UserService;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -9,6 +10,9 @@ import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
+
+import static prosayj.execises.projects.user.repository.DatabaseUserRepository.QUERY_ALL_USERS_DML_SQL;
 
 /**
  * DBConnectionManager
@@ -17,17 +21,25 @@ import java.util.Map;
  * @date 2021-02-28 上午 12:06
  * @since 1.0.0
  */
-public class DBConnectionManager {
+public class DBConnectionManager implements ConnectionManager {
 
     private Connection connection;
 
     public DBConnectionManager() {
         try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-            this.connection = DriverManager.getConnection("jdbc:derby:c:/db/user-platform;create=true");
-        } catch (SQLException | ClassNotFoundException throwables) {
+            ServiceLoader<Driver> load = ServiceLoader.load(Driver.class);
+            load.iterator().next();
+            connection = DriverManager.getConnection("jdbc:derby:c:/db/user-platform;create=true");
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+//        try {
+//            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+//            this.connection = DriverManager.getConnection("jdbc:derby:c:/db/user-platform;create=true");
+//        } catch (SQLException | ClassNotFoundException throwables) {
+//            throwables.printStackTrace();
+//        }
+
     }
 
     public static void main(String[] args) throws Exception {
@@ -53,7 +65,7 @@ public class DBConnectionManager {
         System.out.println(statement.executeUpdate(INSERT_USER_DML_SQL));
 
         //3：执行sql：执行查询语句（DML）
-        ResultSet resultSet = statement.executeQuery("SELECT id,name,password,email,phoneNumber FROM users");
+        ResultSet resultSet = statement.executeQuery(QUERY_ALL_USERS_DML_SQL);
 
         // BeanInfo
         BeanInfo userBeanInfo = Introspector.getBeanInfo(User.class, Object.class);
@@ -152,6 +164,7 @@ public class DBConnectionManager {
         this.connection = connection;
     }
 
+    @Override
     public Connection getConnection() {
         return this.connection;
     }

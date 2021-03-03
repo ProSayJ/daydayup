@@ -1,7 +1,7 @@
 package prosayj.execises.projects.user.repository;
 
 import prosayj.execises.projects.user.domain.User;
-import prosayj.execises.projects.user.sql.DBConnectionManager;
+import prosayj.execises.projects.user.sql.ConnectionManager;
 import prosayj.execises.support.function.ThrowableFunction;
 
 import java.beans.BeanInfo;
@@ -28,13 +28,28 @@ import static prosayj.execises.projects.user.sql.DBConnectionManager.DROP_USERS_
  */
 public class DatabaseUserRepository implements UserRepository {
     private static final Logger logger = Logger.getLogger(DatabaseUserRepository.class.getName());
+    private final ConnectionManager dbConnectionManager;
+
+    public DatabaseUserRepository() {
+        ServiceLoader<ConnectionManager> load = ServiceLoader.load(ConnectionManager.class);
+        this.dbConnectionManager = load.iterator().next();
+
+        resultSetMethodMappings = new HashMap<>();
+        resultSetMethodMappings.put(Long.class, "getLong");
+        resultSetMethodMappings.put(String.class, "getString");
+
+        preparedStatementMethodMappings = new HashMap<>();
+        preparedStatementMethodMappings.put(Long.class, "setLong");
+        preparedStatementMethodMappings.put(String.class, "setString");
+    }
+
+
     /**
      * 通用处理方式
      */
     private static final Consumer<Throwable> COMMON_EXCEPTION_HANDLER =
             e -> logger.log(Level.SEVERE, e.getMessage());
 
-    private final DBConnectionManager dbConnectionManager;
     /**
      * 数据类型与 ResultSet 方法名映射
      */
@@ -45,22 +60,6 @@ public class DatabaseUserRepository implements UserRepository {
      */
     private final Map<Class<?>, String> preparedStatementMethodMappings;
 
-    /**
-     * 构造注入
-     *
-     * @param dbConnectionManager dbConnectionManager
-     */
-    public DatabaseUserRepository(DBConnectionManager dbConnectionManager) {
-        this.dbConnectionManager = dbConnectionManager;
-
-        resultSetMethodMappings = new HashMap<>();
-        resultSetMethodMappings.put(Long.class, "getLong");
-        resultSetMethodMappings.put(String.class, "getString");
-
-        preparedStatementMethodMappings = new HashMap<>();
-        preparedStatementMethodMappings.put(Long.class, "setLong");
-        preparedStatementMethodMappings.put(String.class, "setString");
-    }
 
     public static final String INSERT_USER_DML_SQL = "INSERT INTO users(name,password,email,phoneNumber) VALUES (?,?,?,?)";
     public static final String QUERY_ALL_USERS_DML_SQL = "SELECT id,name,password,email,phoneNumber FROM users";
