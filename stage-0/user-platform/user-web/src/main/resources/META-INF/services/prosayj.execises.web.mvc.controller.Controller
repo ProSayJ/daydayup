@@ -1,1 +1,3 @@
 prosayj.execises.projects.user.web.controller.HelloWorldController
+prosayj.execises.projects.user.web.controller.StaticJumpController
+prosayj.execises.projects.user.web.controller.UserController

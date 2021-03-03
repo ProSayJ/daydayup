@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.sql.Driver;
 import java.util.*;
 
 import static java.util.Arrays.asList;
@@ -49,6 +50,8 @@ public class FrontControllerServlet extends HttpServlet {
      * 利用 ServiceLoader 技术（Java SPI）
      */
     private void initHandleMethods() {
+        ServiceLoader<Driver> load = ServiceLoader.load(Driver.class);
+
         for (Controller controller : ServiceLoader.load(Controller.class)) {
             Class<?> controllerClass = controller.getClass();
             Path pathFromClass = controllerClass.getAnnotation(Path.class);

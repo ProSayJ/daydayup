@@ -18,7 +18,18 @@ import java.util.Map;
  * @since 1.0.0
  */
 public class DBConnectionManager {
+
     private Connection connection;
+
+    public DBConnectionManager() {
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            this.connection = DriverManager.getConnection("jdbc:derby:c:/db/user-platform;create=true");
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 //        通过 ClassLoader 加载 java.sql.DriverManager -> static 模块 {}
 //        DriverManager.setLogWriter(new PrintWriter(System.out));
@@ -29,7 +40,7 @@ public class DBConnectionManager {
 
         //1.注册驱动
         //connect'jdbc:derby:user-platform;create=true';
-        Connection connection = DriverManager.getConnection("jdbc:derby:/db/user-platform;create=true");
+        Connection connection = DriverManager.getConnection("jdbc:derby:c:/db/user-platform;create=true");
         //2.获取数据库连接
         Statement statement = connection.createStatement();
 

@@ -9,20 +9,19 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 /**
- * 输出 “Hello,World” Controller
+ * 静态资源跳转类
  *
  * @author yangjian
- * @since 1.0
+ * @date 2021-03-02 上午 12:14
+ * @since 1.0.0
  */
-@Path("/hello")
-public class HelloWorldController implements PageController {
-
-
+@Path("/to")
+public class StaticJumpController implements PageController {
     @GET
     @POST
-    @Path("/world") // /hello/world -> HelloWorldController
+    @Path("/user/register")
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Throwable {
-        return "index.jsp";
+        return "/WEB-INF/jsp/register.jsp";
     }
 }
